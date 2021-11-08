@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/08 16:49:34 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/08 18:53:01 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void init_philos(t_data *data)
     i = -1;
     while (++i < data->nb_philo)
     {
-        data->philos[i]->start_eat = 0;
         data->philos[i]->pos = i;
         data->philos[i]->fork_left = i;
         data->philos[i]->fork_right = (i + 1) % data->nb_philo;
@@ -48,12 +47,14 @@ static void init_philos(t_data *data)
 
 static void	init_thread(t_data *data)
 {
-	int		i;
+	int			i;
+	p_thread	tid;
 
+	data->start = getime();
 	i = -1;
 	while (++i < data->nb_philos)
-		if (pthread_create(data->philos + i, NULL, make_actions, data->philos + i))
-			ft_error("Thread error...", data);
+		if (pthread_create(&tid, NULL, make_actions, (void *)(data->philos + i)))
+			ft_error("Thread error...\n", data);
 }
 
 void    init(t_data *data)

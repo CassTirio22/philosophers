@@ -6,11 +6,21 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:24:52 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/03 17:50:24 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/08 19:05:06 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+unsigned long long	getime(void)
+{
+	unsigned long long	res;
+	struct timeval		time;
+
+	gettimeofday(&time, NULL);
+	res = time.tv_sec * 1000 + time.tv_usec / 1000;
+	return (res);
+}
 
 int	ft_atoi(char *str)
 {
