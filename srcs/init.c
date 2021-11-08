@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/04 19:26:01 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/08 16:49:34 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ static void init_mutex(t_data *data)
     i = -1;
     while (++i < data->nb_philo)
         pthread_mutex_init(&data->forks[i], NULL);
+	pthread_mutex_init(&data->write_m);
+	pthread_mutex_init(&data->dead_m);
+
 }
 
 static void init_philos(t_data *data)
@@ -43,6 +46,16 @@ static void init_philos(t_data *data)
     }
 }
 
+static void	init_thread(t_data *data)
+{
+	int		i;
+
+	i = -1;
+	while (++i < data->nb_philos)
+		if (pthread_create(data->philos + i, NULL, make_actions, data->philos + i))
+			ft_error("Thread error...", data);
+}
+
 void    init(t_data *data)
 {
     data->nb_philo = ft_atoi(argv[1]);
@@ -57,10 +70,10 @@ void    init(t_data *data)
     || !data->time_sleep < 60 || data->eat_count < 0)
 		ft_error("Bad arguments !", data);
     data->forks = NULL;
-    data->philos = NULL;
-    data->philos = (t_philos *)malloc(sizeof(*(data->philos)) * data->nb_philo);
+    data->philos = (t_philos *)malloc(sizeof(t_philos) * data->nb_philo);
     if (!data->philos)
         ft_error("Malloc error...", data);
     init_philos(data);
     init_mutex(data);
+	init_threads(data);
 }
