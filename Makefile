@@ -6,7 +6,7 @@
 #    By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 17:03:23 by ctirions          #+#    #+#              #
-#    Updated: 2021/11/03 17:41:22 by ctirions         ###   ########.fr        #
+#    Updated: 2021/11/09 18:17:57 by ctirions         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,11 @@ BLUE		=	$(shell tput -Txterm setaf 6)
 WHITE		=	$(shell tput -Txterm setaf 7)
 RESET		=	$(shell tput -Txterm sgr0)
 
-SRCS		=	philosophers.c \
+SRCS		=	philosophers.c	\
 				utils.c			\
+				init.c			\
+				actions.c		\
+				utils2.c		\
 
 OBJS		=	$(addprefix srcs/, ${SRCS:.c=.o})
 

@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:10:20 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/04 19:25:50 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/09 18:16:24 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	if (argc < 5 || argc > 6)
-		ft_error("Bad arguments !", data);
-	init(&data);
+		ft_error("Bad arguments !", &data);
+	init(&data, argv, argc);
 	return (0);
 }
