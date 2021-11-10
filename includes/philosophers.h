@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:07:39 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/09 18:16:31 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/10 15:10:46 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ typedef struct	s_data	t_data;
 
 typedef struct	s_philos
 {
-	int				last_eat;
-	int 			start_eat;
-	int				fork_left;
-	int				fork_right;
-	int				eat_count;
-	int				pos;
-	t_data 			*data;
-	pthread_mutex_t	eat_m;
+	int					fork_left;
+	int					fork_right;
+	int					eat_count;
+	int					pos;
+	t_data 				*data;
+	pthread_mutex_t		eat_m;
+	unsigned long long	last_eat;
 }					t_philos;
 
 struct	s_data
@@ -57,7 +56,6 @@ void				ft_putstr(char *str);
 void				ft_putchar(char c);
 void			    init(t_data *data, char **argv, int argc);
 void				*make_actions(void *philo_v);
-void				take_forks(t_philos *philo);
 int					ft_atoi(char *str);
 void				ft_error(char *str, t_data *data);
 

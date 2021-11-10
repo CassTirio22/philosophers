@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/09 18:30:07 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/10 18:01:30 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static void init_mutex(t_data *data)
         ft_error("Malloc error...", data);
     i = -1;
     while (++i < data->nb_philo)
+	{
         pthread_mutex_init(&data->forks_m[i], NULL);
+        pthread_mutex_init(&data->philos[i].eat_m, NULL);
+	}
 	pthread_mutex_init(&data->write_m, NULL);
 	pthread_mutex_init(&data->dead_m, NULL);
 }
@@ -39,11 +42,10 @@ static void init_philos(t_data *data)
         data->philos[i].fork_right = (i + 1) % data->nb_philo;
         data->philos[i].eat_count = 0;
         data->philos[i].data = data;
-        pthread_mutex_init(&data->philos[i].eat_m, NULL);
     }
 }
 
-static void	init_thread(t_data *data)
+static void	init_threads(t_data *data)
 {
 	int			i;
 	pthread_t	tid;
@@ -54,9 +56,12 @@ static void	init_thread(t_data *data)
 	{
 		if (pthread_create(&tid, NULL, make_actions, (void *)(data->philos + i)))
 			ft_error("Thread error...\n", data);
-		pthread_detach(tid);
 		usleep(100);
 	}
+	i = -1;
+	while (++i < data->nb_philo)
+		if (pthread_join(tid, NULL))
+			ft_error("Thread error...\n", data);
 }
 
 void    init(t_data *data, char **argv, int	argc)
@@ -77,5 +82,5 @@ void    init(t_data *data, char **argv, int	argc)
         ft_error("Malloc error...", data);
     init_philos(data);
     init_mutex(data);
-	init_thread(data);
+	init_threads(data);
 }
