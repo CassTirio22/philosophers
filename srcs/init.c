@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/10 18:01:30 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/13 18:28:30 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void init_mutex(t_data *data)
 	}
 	pthread_mutex_init(&data->write_m, NULL);
 	pthread_mutex_init(&data->dead_m, NULL);
+	pthread_mutex_lock(&data->dead_m);
 }
 
 static void init_philos(t_data *data)
@@ -38,6 +39,7 @@ static void init_philos(t_data *data)
     while (++i < data->nb_philo)
     {
         data->philos[i].pos = i;
+        data->philos[i].is_eating = 0;
         data->philos[i].fork_left = i;
         data->philos[i].fork_right = (i + 1) % data->nb_philo;
         data->philos[i].eat_count = 0;
@@ -57,11 +59,8 @@ static void	init_threads(t_data *data)
 		if (pthread_create(&tid, NULL, make_actions, (void *)(data->philos + i)))
 			ft_error("Thread error...\n", data);
 		usleep(100);
+		pthread_detach(tid);
 	}
-	i = -1;
-	while (++i < data->nb_philo)
-		if (pthread_join(tid, NULL))
-			ft_error("Thread error...\n", data);
 }
 
 void    init(t_data *data, char **argv, int	argc)

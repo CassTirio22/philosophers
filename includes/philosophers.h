@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:07:39 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/10 15:10:46 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/13 18:26:31 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_data	t_data;
 
 typedef struct	s_philos
 {
+	int					is_eating;
 	int					fork_left;
 	int					fork_right;
 	int					eat_count;
