@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/14 16:04:58 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/14 16:27:39 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	init_mutex(t_data *data)
 		return (1);
 	i = -1;
 	while (++i < data->nb_philo)
-		pthread_mutex_init(&data->forks_m[i], NULL);
+		if (pthread_mutex_init(&data->forks_m[i], NULL))
+			return (1);
 	if (pthread_mutex_init(&data->write_m, NULL) || \
 	pthread_mutex_init(&data->end_m, NULL))
 		return (1);
