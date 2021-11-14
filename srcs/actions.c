@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:28:56 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/13 18:31:42 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/14 15:17:57 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ static void	*dead(void *philo_v)
 	philo = (t_philos *)philo_v;
 	while (1)
 	{
-		if (!philo->is_eating && getime() > philo->last_eat + philo->data->time_die)
+		if (!philo->is_eating && \
+		getime() > philo->last_eat + philo->data->time_die)
 		{
 			write_msg(philo, " died\n");
-			pthread_mutex_unlock(&philo->data->dead_m);
+			pthread_mutex_unlock(&philo->data->end_m);
 		}
 		usleep(1000);
 	}

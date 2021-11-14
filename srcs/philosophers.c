@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:10:20 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/13 18:23:29 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/14 15:24:40 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		ft_error("Bad arguments !", &data);
 	init(&data, argv, argc);
-	pthread_mutex_lock(&data.dead_m);
-	pthread_mutex_unlock(&data.dead_m);
+	pthread_mutex_lock(&data.end_m);
+	pthread_mutex_unlock(&data.end_m);
 	return (0);
 }
