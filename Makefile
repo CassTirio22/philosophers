@@ -6,7 +6,7 @@
 #    By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 17:03:23 by ctirions          #+#    #+#              #
-#    Updated: 2021/11/09 18:17:57 by ctirions         ###   ########.fr        #
+#    Updated: 2021/11/14 16:29:01 by ctirions         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRCS		=	philosophers.c	\
 				utils.c			\
 				init.c			\
 				actions.c		\
-				utils2.c		\
 
 OBJS		=	$(addprefix srcs/, ${SRCS:.c=.o})
 
