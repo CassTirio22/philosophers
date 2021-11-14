@@ -6,29 +6,28 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/14 15:24:29 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/14 16:04:58 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static void	init_mutex(t_data *data)
+static int	init_mutex(t_data *data)
 {
 	int	i;
 
 	data->forks_m = (pthread_mutex_t *) \
 	malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->forks_m)
-		ft_error("Malloc error...", data);
+		return (1);
 	i = -1;
 	while (++i < data->nb_philo)
-	{
 		pthread_mutex_init(&data->forks_m[i], NULL);
-		pthread_mutex_init(&data->philos[i].eat_m, NULL);
-	}
-	pthread_mutex_init(&data->write_m, NULL);
-	pthread_mutex_init(&data->end_m, NULL);
+	if (pthread_mutex_init(&data->write_m, NULL) || \
+	pthread_mutex_init(&data->end_m, NULL))
+		return (1);
 	pthread_mutex_lock(&data->end_m);
+	return (0);
 }
 
 static void	init_philos(t_data *data)
@@ -39,7 +38,6 @@ static void	init_philos(t_data *data)
 	while (++i < data->nb_philo)
 	{
 		data->philos[i].pos = i;
-		data->philos[i].is_eating = 0;
 		data->philos[i].fork_left = i;
 		data->philos[i].fork_right = (i + 1) % data->nb_philo;
 		data->philos[i].eat_count = 0;
@@ -67,7 +65,7 @@ static void	*eat_count(void *data_v)
 	}
 }
 
-static void	init_threads(t_data *data)
+static int	init_threads(t_data *data)
 {
 	int			i;
 	pthread_t	tid;
@@ -77,20 +75,21 @@ static void	init_threads(t_data *data)
 	if (data->eat_count)
 	{
 		if (pthread_create(&tid, NULL, eat_count, (void *)data))
-			ft_error("Thread error...\n", data);
+			return (1);
 		pthread_detach(tid);
 	}
 	while (++i < data->nb_philo)
 	{
 		if (pthread_create(&tid, NULL, \
 		make_actions, (void *)(data->philos + i)))
-			ft_error("Thread error...\n", data);
+			return (1);
 		usleep(100);
 		pthread_detach(tid);
 	}
+	return (0);
 }
 
-void	init(t_data *data, char **argv, int argc)
+int	init(t_data *data, char **argv, int argc)
 {
 	data->nb_philo = ft_atoi(argv[1]);
 	data->time_die = ft_atoi(argv[2]);
@@ -102,11 +101,12 @@ void	init(t_data *data, char **argv, int argc)
 		data->eat_count = 0;
 	if (!data->nb_philo || data->time_die < 60 || data->time_eat < 60 \
 	|| data->time_sleep < 60 || data->eat_count < 0)
-		ft_error("Bad arguments !", data);
+		return (1);
 	data->philos = (t_philos *)malloc(sizeof(t_philos) * data->nb_philo);
 	if (!data->philos)
-		ft_error("Malloc error...", data);
+		return (1);
 	init_philos(data);
-	init_mutex(data);
-	init_threads(data);
+	if (init_mutex(data) || init_threads(data))
+		return (1);
+	return (0);
 }

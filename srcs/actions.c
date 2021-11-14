@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:28:56 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/14 15:17:57 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/14 15:45:33 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@ static void	slip(t_philos *philo)
 
 static void	eat(t_philos *philo)
 {
-	pthread_mutex_lock(&philo->eat_m);
 	philo->is_eating = 1;
 	philo->last_eat = getime();
 	write_msg(philo, " is eating\n");
 	philo->eat_count++;
 	usleep(1000 * philo->data->time_eat);
 	philo->is_eating = 0;
-	pthread_mutex_unlock(&philo->eat_m);
 }
 
 static void	take_forks(t_philos *philo)
@@ -53,7 +51,7 @@ static void	*dead(void *philo_v)
 			write_msg(philo, " died\n");
 			pthread_mutex_unlock(&philo->data->end_m);
 		}
-		usleep(1000);
+		usleep(100);
 	}
 }
 
