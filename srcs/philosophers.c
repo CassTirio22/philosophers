@@ -6,32 +6,46 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:10:20 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/15 16:41:07 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/15 17:52:16 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	destroy_data(t_data *data)
+static void	destroy_forks(t_data *data)
 {
 	int	i;
 
 	i = -1;
-	if (data->philos)
-		free(data->philos);
-	if (data->forks_m)
+	while (++i < data->nb_philo)
 	{
-		while (++i < data->nb_philo)
-		{
-			pthread_mutex_init(&data->forks_m[i], NULL);
-			pthread_mutex_destroy(&data->forks_m[i]);
-		}
-		free(data->forks_m);
+		pthread_mutex_unlock(&data->forks_m[i]);
+		pthread_mutex_destroy(&data->forks_m[i]);
 	}
-	if (&data->write_m)
+}
+
+int	destroy_data(t_data *data)
+{
+	if (data->error_type == 1)
+		return (1);
+	else if (data->error_type == 2)
+		free(data->philos);
+	else if (data->error_type == 3)
+		free(data->forks_m);
+	else if (data->error_type == 4)
+		destroy_forks(data);
+	else if (data->error_type == 5)
+	{
+		pthread_mutex_unlock(&data->write_m);
 		pthread_mutex_destroy(&data->write_m);
-	if (&data->end_m)
-	pthread_mutex_destroy(&data->end_m);
+	}
+	else if (data->error_type == 6)
+	{
+		pthread_mutex_unlock(&data->end_m);
+		pthread_mutex_destroy(&data->end_m);
+	}
+	data->error_type--;
+	destroy_data(data);
 	return (1);
 }
 
@@ -48,9 +62,11 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 		return (1);
-	if (init(&data, argv, argc))
+	data.error_type = init(&data, argv, argc);
+	if (data.error_type)
 		return (destroy_data(&data));
 	pthread_mutex_lock(&data.end_m);
 	pthread_mutex_unlock(&data.end_m);
+	data.error_type = 6;
 	return (destroy_data(&data));
 }

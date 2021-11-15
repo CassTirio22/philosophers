@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:07:39 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/15 16:41:33 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/15 17:14:53 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_philos
 
 struct	s_data
 {
+	int					error_type;
 	int					eat_count;
 	int					nb_philo;
 	int					time_die;
@@ -42,8 +43,8 @@ struct	s_data
 	int					time_sleep;
 	t_philos			*philos;
 	pthread_mutex_t		*forks_m;
-	pthread_mutex_t		*write_m;
-	pthread_mutex_t		*end_m;
+	pthread_mutex_t		write_m;
+	pthread_mutex_t		end_m;
 	unsigned long long	start;
 };
 

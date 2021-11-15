@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/15 16:41:40 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/15 17:36:36 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,21 @@ static int	init_mutex(t_data *data)
 	data->forks_m = (pthread_mutex_t *) \
 	malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->forks_m)
-		return (1);
+		return (2);
 	i = -1;
 	while (++i < data->nb_philo)
+	{
 		if (pthread_mutex_init(&data->forks_m[i], NULL))
-			return (1);
-	if (pthread_mutex_init(&data->write_m, NULL) || \
-	pthread_mutex_init(&data->end_m, NULL))
-		return (1);
+		{
+			while (i--)
+				pthread_mutex_destroy(&data->forks_m[i]);
+			return (3);
+		}
+	}
+	if (pthread_mutex_init(&data->write_m, NULL))
+		return (4);
+	if (pthread_mutex_init(&data->end_m, NULL))
+		return (5);
 	pthread_mutex_lock(&data->end_m);
 	return (0);
 }
@@ -76,14 +83,14 @@ static int	init_threads(t_data *data)
 	if (data->eat_count)
 	{
 		if (pthread_create(&tid, NULL, eat_count, (void *)data))
-			return (1);
+			return (6);
 		pthread_detach(tid);
 	}
 	while (++i < data->nb_philo)
 	{
 		if (pthread_create(&tid, NULL, \
 		make_actions, (void *)(data->philos + i)))
-			return (1);
+			return (6);
 		usleep(100);
 		pthread_detach(tid);
 	}
@@ -92,8 +99,6 @@ static int	init_threads(t_data *data)
 
 int	init(t_data *data, char **argv, int argc)
 {
-	data->end_m = NULL;
-	data->write_m = NULL;
 	data->forks_m = NULL;
 	data->philos = NULL;
 	data->nb_philo = ft_atoi(argv[1]);
@@ -111,7 +116,8 @@ int	init(t_data *data, char **argv, int argc)
 	if (!data->philos)
 		return (1);
 	init_philos(data);
-	if (init_mutex(data) || init_threads(data))
-		return (1);
-	return (0);
+	data->error_type = init_mutex(data);
+	if (data->error_type)
+		return (data->error_type);
+	return (init_threads(data));
 }
