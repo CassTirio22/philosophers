@@ -6,43 +6,11 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:24:52 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/14 15:25:00 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/15 15:49:18 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putstr(char *str)
-{
-	int	i;
-
-	if (!str)
-		return ;
-	i = -1;
-	while (str[++i])
-		write(1, &str[i], 1);
-}
-
-void	ft_putnbr(int nbr)
-{
-	unsigned int	nb;
-
-	if (nbr < 0)
-	{
-		write(1, "-", 1);
-		nb = -nbr;
-	}
-	else
-		nb = nbr;
-	if (nbr > 9)
-		ft_putnbr(nbr / 10);
-	ft_putchar(nbr % 10 + '0');
-}
 
 unsigned long long	getime(void)
 {

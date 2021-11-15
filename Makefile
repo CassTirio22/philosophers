@@ -6,7 +6,7 @@
 #    By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 17:03:23 by ctirions          #+#    #+#              #
-#    Updated: 2021/11/14 16:29:01 by ctirions         ###   ########.fr        #
+#    Updated: 2021/11/15 15:52:18 by ctirions         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ OBJS		=	$(addprefix srcs/, ${SRCS:.c=.o})
 NAME		=	philosophers.a
 EXEC		=	philosophers
 
-CC			=	gcc
+CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 
 .c.o:

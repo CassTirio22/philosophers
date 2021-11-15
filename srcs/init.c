@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/14 16:27:39 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/15 16:41:40 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ static int	init_threads(t_data *data)
 
 int	init(t_data *data, char **argv, int argc)
 {
+	data->end_m = NULL;
+	data->write_m = NULL;
+	data->forks_m = NULL;
+	data->philos = NULL;
 	data->nb_philo = ft_atoi(argv[1]);
 	data->time_die = ft_atoi(argv[2]);
 	data->time_eat = ft_atoi(argv[3]);
