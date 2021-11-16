@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/15 17:36:36 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/16 15:32:53 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	*eat_count(void *data_v)
 			pthread_mutex_unlock(&data->end_m);
 		usleep(100);
 	}
+	return (NULL);
 }
 
 static int	init_threads(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:28:56 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/15 18:30:39 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/16 15:33:25 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	*dead(void *philo_v)
 		}
 		usleep(100);
 	}
+	return (NULL);
 }
 
 void	*make_actions(void *philo_v)
