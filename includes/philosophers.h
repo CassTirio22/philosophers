@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:07:39 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/15 18:53:47 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/16 17:22:03 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ struct	s_data
 	unsigned long long	start;
 };
 
-void				write_msg(t_philos *philo, char *msg);
+int					destroy_data(t_data *data);
+void				write_msg(t_philos *philo, char *msg, int is_dead);
 unsigned long long	getime(void);
 void				ft_putnbr(int nbr);
 void				ft_putstr(char *str);
