@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/16 17:17:39 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/17 18:19:47 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	init_philos(t_data *data)
 		data->philos[i].fork_right = (i + 1) % data->nb_philo;
 		data->philos[i].eat_count = 0;
 		data->philos[i].data = data;
+		pthread_mutex_init(&data->philos[i].live_m, NULL);
 	}
 }
 
@@ -69,7 +70,6 @@ static void	*eat_count(void *data_v)
 				count++;
 		if (count == data->nb_philo)
 			pthread_mutex_unlock(&data->end_m);
-		usleep(100);
 	}
 	return (NULL);
 }

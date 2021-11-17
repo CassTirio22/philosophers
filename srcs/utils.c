@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:24:52 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/16 17:15:50 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:54:27 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,15 @@ void	write_msg(t_philos *philo, char *msg, int is_dead)
 	pthread_mutex_lock(&philo->data->write_m);
 	if (!finish)
 	{
-		printf("%llu %d %s", getime() \
-		- philo->data->start, philo->pos + 1, msg);
 		if (is_dead)
 			finish = 1;
+		/*printf("%llu %d %s", getime() \
+		- philo->data->start, philo->pos + 1, msg);*/
+		ft_putnbr(getime() - philo->data->start);
+		write(1, " ", 1);
+		ft_putnbr(philo->pos + 1);
+		write(1, " ", 1);
+		ft_putstr(msg);
 	}
 	pthread_mutex_unlock(&philo->data->write_m);
 }
@@ -97,4 +102,29 @@ int	ft_atoi(char *str)
 	if (str[i])
 		return (0);
 	return (res * sign);
+}
+
+// TO DELETE
+
+static void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	int	i;
+
+	i = -1;
+	if (!str)
+		write(1, "(null)", 6);
+	while (str[++i])
+		write(1, &str[i], 1);
+}
+
+void	ft_putnbr(unsigned long long n)
+{
+	if (n > 9)
+		ft_putnbr(n / 10);
+	ft_putchar(n % 10 + '0');
 }

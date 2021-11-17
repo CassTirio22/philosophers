@@ -6,7 +6,7 @@
 #    By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 17:03:23 by ctirions          #+#    #+#              #
-#    Updated: 2021/11/16 16:29:33 by ctirions         ###   ########.fr        #
+#    Updated: 2021/11/17 16:41:50 by ctirions         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,12 +35,12 @@ CFLAGS		=	-Wall -Wextra -Werror
 PFLAGS		=	-pthread
 
 .c.o:
-				@${CC} ${CFLAGS} ${PFLAGS} -c -I ./includes $< -o ${<:.c=.o}
+				@${CC} ${CFLAGS} ${PFLAGS} -g -c -I ./includes $< -o ${<:.c=.o}
 				@echo "${LIGHTPURPLE}Compilation : $< --> .o${RESET}"
 
 $(NAME):		${OBJS}
 				@ar -rcs ${NAME} ${OBJS}
-				@${CC} ${CFLAGS} ${PFLAGS} ${NAME} -o ${EXEC}
+				@${CC} ${CFLAGS} ${PFLAGS} -g ${NAME} -o ${EXEC}
 				
 all:			${NAME}
 				

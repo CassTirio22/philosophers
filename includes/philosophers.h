@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:07:39 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/16 17:22:03 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/17 18:19:38 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_philos
 	int					eat_count;
 	int					pos;
 	t_data				*data;
+	pthread_mutex_t		live_m;
 	unsigned long long	last_eat;
 }				t_philos;
 
@@ -51,11 +52,11 @@ struct	s_data
 int					destroy_data(t_data *data);
 void				write_msg(t_philos *philo, char *msg, int is_dead);
 unsigned long long	getime(void);
-void				ft_putnbr(int nbr);
-void				ft_putstr(char *str);
-void				ft_putchar(char c);
 int					init(t_data *data, char **argv, int argc);
 void				*make_actions(void *philo_v);
 int					ft_atoi(char *str);
+
+void				ft_putstr(char *str);
+void				ft_putnbr(unsigned long long n);
 
 #endif
