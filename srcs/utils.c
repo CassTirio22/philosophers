@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:24:52 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/17 17:54:27 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/18 07:20:58 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,30 @@ static void	destroy_forks(t_data *data)
 
 	i = -1;
 	while (++i < data->nb_philo)
-	{
-		pthread_mutex_unlock(&data->forks_m[i]);
 		pthread_mutex_destroy(&data->forks_m[i]);
-	}
 }
 
 int	destroy_data(t_data *data)
 {
+	int	i;
+
+	i = -1;
 	if (data->error_type == 1)
 		return (1);
 	else if (data->error_type == 2)
+	{
+		while (++i < data->nb_philo)
+			pthread_mutex_destroy(&data->philos[i].live_m);
 		free(data->philos);
+	}
 	else if (data->error_type == 3)
 		free(data->forks_m);
 	else if (data->error_type == 4)
 		destroy_forks(data);
 	else if (data->error_type == 5)
-	{
-		pthread_mutex_unlock(&data->write_m);
 		pthread_mutex_destroy(&data->write_m);
-	}
 	else if (data->error_type == 6)
-	{
-		pthread_mutex_unlock(&data->end_m);
 		pthread_mutex_destroy(&data->end_m);
-	}
 	data->error_type--;
 	destroy_data(data);
 	return (1);
@@ -58,13 +56,13 @@ void	write_msg(t_philos *philo, char *msg, int is_dead)
 	{
 		if (is_dead)
 			finish = 1;
-		/*printf("%llu %d %s", getime() \
-		- philo->data->start, philo->pos + 1, msg);*/
 		ft_putnbr(getime() - philo->data->start);
 		write(1, " ", 1);
 		ft_putnbr(philo->pos + 1);
 		write(1, " ", 1);
 		ft_putstr(msg);
+		if (is_dead)
+			return ;
 	}
 	pthread_mutex_unlock(&philo->data->write_m);
 }
@@ -102,29 +100,4 @@ int	ft_atoi(char *str)
 	if (str[i])
 		return (0);
 	return (res * sign);
-}
-
-// TO DELETE
-
-static void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putstr(char *str)
-{
-	int	i;
-
-	i = -1;
-	if (!str)
-		write(1, "(null)", 6);
-	while (str[++i])
-		write(1, &str[i], 1);
-}
-
-void	ft_putnbr(unsigned long long n)
-{
-	if (n > 9)
-		ft_putnbr(n / 10);
-	ft_putchar(n % 10 + '0');
 }

@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/17 18:19:47 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/18 07:26:13 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static int	init_mutex(t_data *data)
 	if (pthread_mutex_init(&data->end_m, NULL))
 		return (5);
 	pthread_mutex_lock(&data->end_m);
-	return (0);
+	return (init_threads(data));
 }
 
-static void	init_philos(t_data *data)
+static int	init_philos(t_data *data)
 {
 	int	i;
 
@@ -46,12 +46,19 @@ static void	init_philos(t_data *data)
 	while (++i < data->nb_philo)
 	{
 		data->philos[i].pos = i;
+		data->philos[i].is_eating = 0;
 		data->philos[i].fork_left = i;
 		data->philos[i].fork_right = (i + 1) % data->nb_philo;
 		data->philos[i].eat_count = 0;
 		data->philos[i].data = data;
-		pthread_mutex_init(&data->philos[i].live_m, NULL);
+		if (pthread_mutex_init(&data->philos[i].live_m, NULL))
+		{
+			while (i--)
+				pthread_mutex_destroy(&data->philos[i].live_m);
+			return (2);
+		}
 	}
+	return (init_mutex(data));
 }
 
 static void	*eat_count(void *data_v)
@@ -70,11 +77,12 @@ static void	*eat_count(void *data_v)
 				count++;
 		if (count == data->nb_philo)
 			pthread_mutex_unlock(&data->end_m);
+		usleep(100);
 	}
 	return (NULL);
 }
 
-static int	init_threads(t_data *data)
+int	init_threads(t_data *data)
 {
 	int			i;
 	pthread_t	tid;
@@ -83,17 +91,17 @@ static int	init_threads(t_data *data)
 	i = -1;
 	if (data->eat_count)
 	{
-		if (pthread_create(&tid, NULL, eat_count, (void *)data))
+		if (pthread_create(&tid, NULL, &eat_count, (void *)data))
 			return (6);
 		pthread_detach(tid);
 	}
 	while (++i < data->nb_philo)
 	{
 		if (pthread_create(&tid, NULL, \
-		make_actions, (void *)(data->philos + i)))
+		&make_actions, (void *)(data->philos + i)))
 			return (6);
-		usleep(100);
 		pthread_detach(tid);
+		usleep(100);
 	}
 	return (0);
 }
@@ -110,15 +118,11 @@ int	init(t_data *data, char **argv, int argc)
 		data->eat_count = ft_atoi(argv[5]);
 	else
 		data->eat_count = 0;
-	if (!data->nb_philo || data->time_die < 60 || data->time_eat < 60 \
-	|| data->time_sleep < 60 || data->eat_count < 0)
+	if (!data->nb_philo || data->nb_philo >= 200 || data->time_die < 60 || \
+	data->time_eat < 60 || data->time_sleep < 60 || data->eat_count < 0)
 		return (1);
 	data->philos = (t_philos *)malloc(sizeof(t_philos) * data->nb_philo);
 	if (!data->philos)
 		return (1);
-	init_philos(data);
-	data->error_type = init_mutex(data);
-	if (data->error_type)
-		return (data->error_type);
-	return (init_threads(data));
+	return (init_philos(data));
 }

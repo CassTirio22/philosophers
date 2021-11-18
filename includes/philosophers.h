@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:07:39 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/17 18:19:38 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/18 07:25:56 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ int					destroy_data(t_data *data);
 void				write_msg(t_philos *philo, char *msg, int is_dead);
 unsigned long long	getime(void);
 int					init(t_data *data, char **argv, int argc);
+int					init_threads(t_data *data);
 void				*make_actions(void *philo_v);
 int					ft_atoi(char *str);
-
 void				ft_putstr(char *str);
 void				ft_putnbr(unsigned long long n);
+void				msleep(unsigned long long ms);
 
 #endif
