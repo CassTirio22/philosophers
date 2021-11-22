@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/22 16:47:54 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/22 17:10:01 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	init(t_data *data, char **argv, int argc)
 		data->eat_count = ft_atoi(argv[5]);
 	else
 		data->eat_count = 0;
-	if (!data->nb_philo || data->nb_philo >= 200 || data->time_die < 60 || \
+	if (!data->nb_philo || data->nb_philo > 200 || data->time_die < 60 || \
 	data->time_eat < 60 || data->time_sleep < 60 || data->eat_count < 0)
 		return (1);
 	data->philos = (t_philos *)malloc(sizeof(t_philos) * data->nb_philo);
