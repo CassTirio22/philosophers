@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/23 15:53:11 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/23 17:13:24 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,13 @@ int	init_threads(t_data *data)
 	{
 		if (pthread_create(&tid, NULL, &eat_count, (void *)data))
 			return (6);
-		pthread_detach(tid);
 	}
 	while (++i < data->nb_philo)
 	{
 		if (pthread_create(&tid, NULL, \
 		&make_actions, (void *)(data->philos + i)))
 			return (6);
-		pthread_detach(tid);
-		usleep(100);
+		usleep(10);
 	}
 	return (0);
 }

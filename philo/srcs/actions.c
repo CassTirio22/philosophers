@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:28:56 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/23 15:40:53 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/23 17:17:00 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	*make_actions(void *philo_v)
 	philo->last_eat = philo->data->start;
 	if (pthread_create(&tid, NULL, &dead, philo_v))
 		return (NULL);
-	pthread_detach(tid);
 	while (1)
 	{
 		take_forks(philo);
