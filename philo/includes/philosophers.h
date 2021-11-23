@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:07:39 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/18 07:25:56 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:34:51 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+
+# define BLACK "\033[30m"
+# define RED "\033[31m"
+# define GREEN "\033[32m"
+# define YELLOW "\033[33m"
+# define ORANGE "\033[34m"
+# define PURPLE "\033[35m"
+# define CYAN "\033[36m"
+# define WHITE "\033[37m"
+# define RESET "\033[0m"
 
 typedef struct s_data	t_data;
 
@@ -50,7 +60,8 @@ struct	s_data
 };
 
 int					destroy_data(t_data *data);
-void				write_msg(t_philos *philo, char *msg, int is_dead);
+void				write_msg(t_philos *philo, char *msg, \
+					int is_dead, char *color);
 unsigned long long	getime(void);
 int					init(t_data *data, char **argv, int argc);
 int					init_threads(t_data *data);

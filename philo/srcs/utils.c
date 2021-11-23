@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:24:52 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/18 07:20:58 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:50:42 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	destroy_data(t_data *data)
 	return (1);
 }
 
-void	write_msg(t_philos *philo, char *msg, int is_dead)
+void	write_msg(t_philos *philo, char *msg, int is_dead, char *color)
 {
 	static int	finish = 0;
 
@@ -56,11 +56,16 @@ void	write_msg(t_philos *philo, char *msg, int is_dead)
 	{
 		if (is_dead)
 			finish = 1;
+		if (is_dead == 2)
+			return ;
+		ft_putstr(ORANGE);
 		ft_putnbr(getime() - philo->data->start);
-		write(1, " ", 1);
+		write(1, "\t", 1);
+		ft_putstr(color);
 		ft_putnbr(philo->pos + 1);
 		write(1, " ", 1);
 		ft_putstr(msg);
+		ft_putstr(RESET);
 		if (is_dead)
 			return ;
 	}

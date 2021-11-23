@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/22 17:10:01 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:53:11 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	*eat_count(void *data_v)
 				count++;
 		if (count == data->nb_philo)
 		{
-			pthread_mutex_lock(&data->write_m);
+			write_msg(&data->philos[0], "", 2, NULL);
 			pthread_mutex_unlock(&data->end_m);
 		}
 		usleep(100);
