@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:28:56 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/28 13:34:26 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/28 15:02:29 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static void	*dead(void *philo_v)
 		{
 			write_msg(philo, "died\n", 1, RED);
 			philo->data->is_dead = 1;
-			usleep(100);
 			pthread_mutex_unlock(&philo->data->end_m);
 			return (NULL);
 		}

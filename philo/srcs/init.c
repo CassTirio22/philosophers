@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/28 13:31:25 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:54:42 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ int	init(t_data *data, char **argv, int argc)
 	data->is_dead = 0;
 	if (argc == 6)
 		data->eat_count = ft_atoi(argv[5]);
-	else
+	if (argc == 6 && !data->eat_count)
+		return (1);
+	if (argc == 5)
 		data->eat_count = 0;
 	if (!data->nb_philo || data->nb_philo > 200 || data->time_die < 60 || \
 	data->time_eat < 60 || data->time_sleep < 60 || data->eat_count < 0)
