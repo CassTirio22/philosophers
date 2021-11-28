@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 02:53:14 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/23 17:13:24 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/28 13:31:25 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ static int	init_philos(t_data *data)
 		data->philos[i].fork_right = (i + 1) % data->nb_philo;
 		data->philos[i].eat_count = 0;
 		data->philos[i].data = data;
-		if (pthread_mutex_init(&data->philos[i].live_m, NULL))
-		{
-			while (i--)
-				pthread_mutex_destroy(&data->philos[i].live_m);
-			return (2);
-		}
 	}
 	return (init_mutex(data));
 }
@@ -78,6 +72,8 @@ static void	*eat_count(void *data_v)
 		if (count == data->nb_philo)
 		{
 			write_msg(&data->philos[0], "", 2, NULL);
+			data->is_dead = 1;
+			usleep(100);
 			pthread_mutex_unlock(&data->end_m);
 		}
 		usleep(100);
@@ -96,13 +92,15 @@ int	init_threads(t_data *data)
 	{
 		if (pthread_create(&tid, NULL, &eat_count, (void *)data))
 			return (6);
+		pthread_detach(tid);
 	}
 	while (++i < data->nb_philo)
 	{
 		if (pthread_create(&tid, NULL, \
 		&make_actions, (void *)(data->philos + i)))
 			return (6);
-		usleep(10);
+		pthread_detach(tid);
+		usleep(100);
 	}
 	return (0);
 }
@@ -115,6 +113,7 @@ int	init(t_data *data, char **argv, int argc)
 	data->time_die = ft_atoi(argv[2]);
 	data->time_eat = ft_atoi(argv[3]);
 	data->time_sleep = ft_atoi(argv[4]);
+	data->is_dead = 0;
 	if (argc == 6)
 		data->eat_count = ft_atoi(argv[5]);
 	else

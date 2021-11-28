@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:07:39 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/23 15:34:51 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/28 13:27:12 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ typedef struct s_philos
 	int					eat_count;
 	int					pos;
 	t_data				*data;
-	pthread_mutex_t		live_m;
 	unsigned long long	last_eat;
 }				t_philos;
 
 struct	s_data
 {
+	int					is_dead;
 	int					error_type;
 	int					eat_count;
 	int					nb_philo;

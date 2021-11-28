@@ -6,7 +6,7 @@
 /*   By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:24:52 by ctirions          #+#    #+#             */
-/*   Updated: 2021/11/23 17:14:05 by ctirions         ###   ########.fr       */
+/*   Updated: 2021/11/28 13:47:52 by ctirions         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,7 @@ int	destroy_data(t_data *data)
 	if (data->error_type == 1)
 		return (1);
 	else if (data->error_type == 2)
-	{
-		while (++i < data->nb_philo)
-			pthread_mutex_destroy(&data->philos[i].live_m);
 		free(data->philos);
-	}
 	else if (data->error_type == 3)
 		free(data->forks_m);
 	else if (data->error_type == 4)
